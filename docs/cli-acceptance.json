@@ -1,0 +1,627 @@
+{
+  "checkedAt": "2026-10-30T02:05:51.618583+00:00",
+  "version": "0.2.0",
+  "command": "picos new cli-acceptance --cpu 300 --ram 24 --storage 200 --model gpt-6-luna --prompt <bounded framebuffer terminal acceptance mission> --no-open --dir <workspace>/.picos/experiments/cli-acceptance",
+  "experiment": {
+    "config": {
+      "clockHz": 300000000,
+      "diskBytes": 200000000,
+      "maxCycles": 18000000000,
+      "ramBytes": 24000000
+    },
+    "createdAt": 1793325873855,
+    "mission": "Build a small terminal on the guest framebuffer from assembly. Render a recognizable prompt and a few text glyphs using guest pixels, print PICOS READY followed by a newline over serial, and accept input if feasible. Verify with machine_screen and actual execution. Keep this first version small and limit this acceptance turn to 12 machine calls. Do not seal.",
+    "model": "gpt-6-luna",
+    "name": "cli-acceptance",
+    "version": 1
+  },
+  "agent": {
+    "auth": "chatgpt",
+    "connected": false,
+    "error": null,
+    "exitCode": 0,
+    "finishedAt": 1793325897004,
+    "maxToolCalls": 240,
+    "model": "gpt-6-luna",
+    "result": "Built and executed a small guest assembly terminal. The framebuffer shows a white `smol>` prompt on black, and the guest emitted `PICOS READY\\n` over serial.\n\nExecution halted normally after 295,421 cycles (about 0.000985 virtual seconds), with no fault. The machine remains unsealed. This first version renders the prompt but does not accept input.",
+    "startedAt": 1793325874076,
+    "status": "completed",
+    "threadId": "01a18a8d-3bef-7371-9297-fe37d8524800",
+    "toolCalls": 5,
+    "usage": {
+      "cache_write_input_tokens": 0,
+      "cached_input_tokens": 102400,
+      "input_tokens": 119711,
+      "output_tokens": 1309,
+      "reasoning_output_tokens": 356
+    }
+  },
+  "machine": {
+    "bootBytes": 1557,
+    "config": {
+      "clockHz": 300000000,
+      "diskBytes": 200000000,
+      "maxCycles": 18000000000,
+      "ramBytes": 24000000
+    },
+    "cycles": 295421,
+    "diskCursor": 0,
+    "diskTouchedBytes": 1557,
+    "fault": null,
+    "inputBytes": 0,
+    "instructions": 246017,
+    "pc": 1544,
+    "ramTouchedBytes": 50709,
+    "registers": [
+      1556,
+      0,
+      23956520,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      23950848
+    ],
+    "sealed": false,
+    "serial": "PICOS READY\n",
+    "status": "halted",
+    "videoBase": 23950848,
+    "virtualSeconds": 0.0009847366666666667
+  },
+  "framebuffer": {
+    "bytes": 49152,
+    "nonzeroPixels": 59,
+    "colors": [
+      0,
+      255
+    ]
+  },
+  "disassembly": {
+    "address": 0,
+    "length": 256,
+    "pc": 1544,
+    "ramBytes": 24000000,
+    "registers": [
+      1556,
+      0,
+      23956520,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      23950848
+    ],
+    "rows": [
+      {
+        "address": 0,
+        "assembly": "mov r1, 0",
+        "bytes": [
+          3,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "isPc": false,
+        "kind": "instruction"
+      },
+      {
+        "address": 8,
+        "assembly": "mov r2, 23950848",
+        "bytes": [
+          3,
+          2,
+          0,
+          0,
+          0,
+          118,
+          109,
+          1
+        ],
+        "isPc": false,
+        "kind": "instruction"
+      },
+      {
+        "address": 16,
+        "assembly": "mov r3, 49152",
+        "bytes": [
+          3,
+          3,
+          0,
+          0,
+          0,
+          192,
+          0,
+          0
+        ],
+        "isPc": false,
+        "kind": "instruction"
+      },
+      {
+        "address": 24,
+        "assembly": "store8 r1, r2",
+        "bytes": [
+          16,
+          1,
+          1,
+          0,
+          2,
+          0,
+          0,
+          0
+        ],
+        "isPc": false,
+        "kind": "instruction"
+      },
+      {
+        "address": 32,
+        "assembly": "add r2, 1",
+        "bytes": [
+          4,
+          2,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0
+        ],
+        "isPc": false,
+        "kind": "instruction"
+      },
+      {
+        "address": 40,
+        "assembly": "sub r3, 1",
+        "bytes": [
+          5,
+          3,
+          0,
+          0,
+          1,
+          0,
+          0,
+          0
+        ],
+        "isPc": false,
+        "kind": "instruction"
+      },
+      {
+        "address": 48,
+        "assembly": "cmp r3, 0",
+        "bytes": [
+          18,
+          3,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "isPc": false,
+        "kind": "instruction"
+      },
+      {
+        "address": 56,
+        "assembly": "jne 0x00000018",
+        "bytes": [
+          21,
+          0,
+          0,
+          0,
+          24,
+          0,
+          0,
+          0
+        ],
+        "isPc": false,
+        "kind": "instruction"
+      },
+      {
+        "address": 64,
+        "assembly": "mov r1, 255",
+        "bytes": [
+          3,
+          1,
+          0,
+          0,
+          255,
+          0,
+          0,
+          0
+        ],
+        "isPc": false,
+        "kind": "instruction"
+      },
+      {
+        "address": 72,
+        "assembly": "mov r2, 23954961",
+        "bytes": [
+          3,
+          2,
+          0,
+          0,
+          17,
+          134,
+          109,
+          1
+        ],
+        "isPc": false,
+        "kind": "instruction"
+      },
+      {
+        "address": 80,
+        "assembly": "store8 r1, r2",
+        "bytes": [
+          16,
+          1,
+          1,
+          0,
+          2,
+          0,
+          0,
+          0
+        ],
+        "isPc": false,
+        "kind": "instruction"
+      },
+      {
+        "address": 88,
+        "assembly": "mov r1, 255",
+        "bytes": [
+          3,
+          1,
+          0,
+          0,
+          255,
+          0,
+          0,
+          0
+        ],
+        "isPc": false,
+        "kind": "instruction"
+      },
+      {
+        "address": 96,
+        "assembly": "mov r2, 23954962",
+        "bytes": [
+          3,
+          2,
+          0,
+          0,
+          18,
+          134,
+          109,
+          1
+        ],
+        "isPc": false,
+        "kind": "instruction"
+      },
+      {
+        "address": 104,
+        "assembly": "store8 r1, r2",
+        "bytes": [
+          16,
+          1,
+          1,
+          0,
+          2,
+          0,
+          0,
+          0
+        ],
+        "isPc": false,
+        "kind": "instruction"
+      },
+      {
+        "address": 112,
+        "assembly": "mov r1, 255",
+        "bytes": [
+          3,
+          1,
+          0,
+          0,
+          255,
+          0,
+          0,
+          0
+        ],
+        "isPc": false,
+        "kind": "instruction"
+      },
+      {
+        "address": 120,
+        "assembly": "mov r2, 23954963",
+        "bytes": [
+          3,
+          2,
+          0,
+          0,
+          19,
+          134,
+          109,
+          1
+        ],
+        "isPc": false,
+        "kind": "instruction"
+      },
+      {
+        "address": 128,
+        "assembly": "store8 r1, r2",
+        "bytes": [
+          16,
+          1,
+          1,
+          0,
+          2,
+          0,
+          0,
+          0
+        ],
+        "isPc": false,
+        "kind": "instruction"
+      },
+      {
+        "address": 136,
+        "assembly": "mov r1, 255",
+        "bytes": [
+          3,
+          1,
+          0,
+          0,
+          255,
+          0,
+          0,
+          0
+        ],
+        "isPc": false,
+        "kind": "instruction"
+      },
+      {
+        "address": 144,
+        "assembly": "mov r2, 23954964",
+        "bytes": [
+          3,
+          2,
+          0,
+          0,
+          20,
+          134,
+          109,
+          1
+        ],
+        "isPc": false,
+        "kind": "instruction"
+      },
+      {
+        "address": 152,
+        "assembly": "store8 r1, r2",
+        "bytes": [
+          16,
+          1,
+          1,
+          0,
+          2,
+          0,
+          0,
+          0
+        ],
+        "isPc": false,
+        "kind": "instruction"
+      },
+      {
+        "address": 160,
+        "assembly": "mov r1, 255",
+        "bytes": [
+          3,
+          1,
+          0,
+          0,
+          255,
+          0,
+          0,
+          0
+        ],
+        "isPc": false,
+        "kind": "instruction"
+      },
+      {
+        "address": 168,
+        "assembly": "mov r2, 23955216",
+        "bytes": [
+          3,
+          2,
+          0,
+          0,
+          16,
+          135,
+          109,
+          1
+        ],
+        "isPc": false,
+        "kind": "instruction"
+      },
+      {
+        "address": 176,
+        "assembly": "store8 r1, r2",
+        "bytes": [
+          16,
+          1,
+          1,
+          0,
+          2,
+          0,
+          0,
+          0
+        ],
+        "isPc": false,
+        "kind": "instruction"
+      },
+      {
+        "address": 184,
+        "assembly": "mov r1, 255",
+        "bytes": [
+          3,
+          1,
+          0,
+          0,
+          255,
+          0,
+          0,
+          0
+        ],
+        "isPc": false,
+        "kind": "instruction"
+      },
+      {
+        "address": 192,
+        "assembly": "mov r2, 23955472",
+        "bytes": [
+          3,
+          2,
+          0,
+          0,
+          16,
+          136,
+          109,
+          1
+        ],
+        "isPc": false,
+        "kind": "instruction"
+      },
+      {
+        "address": 200,
+        "assembly": "store8 r1, r2",
+        "bytes": [
+          16,
+          1,
+          1,
+          0,
+          2,
+          0,
+          0,
+          0
+        ],
+        "isPc": false,
+        "kind": "instruction"
+      },
+      {
+        "address": 208,
+        "assembly": "mov r1, 255",
+        "bytes": [
+          3,
+          1,
+          0,
+          0,
+          255,
+          0,
+          0,
+          0
+        ],
+        "isPc": false,
+        "kind": "instruction"
+      },
+      {
+        "address": 216,
+        "assembly": "mov r2, 23955729",
+        "bytes": [
+          3,
+          2,
+          0,
+          0,
+          17,
+          137,
+          109,
+          1
+        ],
+        "isPc": false,
+        "kind": "instruction"
+      },
+      {
+        "address": 224,
+        "assembly": "store8 r1, r2",
+        "bytes": [
+          16,
+          1,
+          1,
+          0,
+          2,
+          0,
+          0,
+          0
+        ],
+        "isPc": false,
+        "kind": "instruction"
+      },
+      {
+        "address": 232,
+        "assembly": "mov r1, 255",
+        "bytes": [
+          3,
+          1,
+          0,
+          0,
+          255,
+          0,
+          0,
+          0
+        ],
+        "isPc": false,
+        "kind": "instruction"
+      },
+      {
+        "address": 240,
+        "assembly": "mov r2, 23955730",
+        "bytes": [
+          3,
+          2,
+          0,
+          0,
+          18,
+          137,
+          109,
+          1
+        ],
+        "isPc": false,
+        "kind": "instruction"
+      },
+      {
+        "address": 248,
+        "assembly": "store8 r1, r2",
+        "bytes": [
+          16,
+          1,
+          1,
+          0,
+          2,
+          0,
+          0,
+          0
+        ],
+        "isPc": false,
+        "kind": "instruction"
+      }
+    ],
+    "videoBase": 23950848
+  },
+  "observerOnly": true
+}

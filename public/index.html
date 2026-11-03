@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#101313">
+  <title>picos / observer</title>
+  <link rel="stylesheet" href="/style.css">
+  <script src="/app.js" type="module"></script>
+</head>
+<body data-mobile-view="display">
+  <header class="topbar">
+    <a class="brand" href="/" aria-label="picos observer"><span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i><i></i></span>picos<span class="brand-divider">/</span></a>
+    <div class="experiment-heading"><h1 id="experiment-name">experiment</h1><span id="model" class="model">Connecting</span></div>
+    <div class="hardware" aria-label="Guest hardware"><span><b id="cpu">—</b> MHz</span><span><b id="ram">—</b> MB RAM</span><span><b id="storage">—</b> MB disk</span></div>
+    <span class="connection" id="connection" role="status"><i></i><span id="connection-label">Connecting</span></span>
+  </header>
+
+  <section id="access-panel" class="access-panel" aria-labelledby="access-heading" hidden>
+    <p class="eyebrow">YOUR PRIVATE EXPERIMENT</p><h2 id="access-heading">Connect to picos</h2>
+    <p>Open the private network link printed in your terminal, or paste its access key below. Your phone and computer must be on the same network.</p>
+    <form id="access-form"><label for="access-key">Private link or access key</label><input id="access-key" type="password" autocomplete="off" autocapitalize="none" spellcheck="false" required><button type="submit">Connect</button></form>
+    <p id="access-feedback" role="status"></p>
+  </section>
+  <main class="observer">
+    <section class="machine" aria-labelledby="display-heading">
+      <div class="agent-panel" id="agent-panel" data-phase="idle">
+        <div class="agent-panel-top"><span class="agent-beacon" aria-hidden="true"></span><strong id="agent-phase">Waiting for the agent</strong><span id="turn-count">—</span></div>
+        <p id="agent-detail">The machine begins blank. Changes appear here as the agent works.</p>
+        <div class="agent-metrics"><span id="tool-count">0 tool calls</span><span id="write-count">0 memory updates</span><span id="last-write">No writes yet</span></div>
+        <p id="execution-boundary" class="execution-boundary">Checking execution boundary…</p>
+        <section class="goal-card" aria-labelledby="goal-heading">
+          <div class="goal-heading"><h2 id="goal-heading">Goal sent to the agent</h2><button id="copy-goal" type="button" disabled>Copy</button><button id="open-journal" type="button">Open journal <span id="journal-count">0</span></button></div>
+          <p id="goal-text" tabindex="0">Waiting for the experiment goal.</p>
+          <span id="goal-copy-status" class="copy-status" role="status"></span>
+        </section>
+        <section class="session-controls" aria-label="Experiment controls">
+          <div class="mode-row"><label for="run-mode">Mode</label><select id="run-mode" aria-describedby="mode-description"><option value="standard">Standard</option><option value="resource-limit">Resource limit</option><option value="maximize">Maximize quality</option></select><button id="apply-mode" type="button" disabled>Apply mode</button></div>
+          <p id="mode-description" class="control-description">Build across a fixed number of turns. Grant more turns to keep going.</p>
+          <div class="turn-actions">
+            <form id="grant-turns" class="grant-turns"><label for="additional-turns">More turns</label><input id="additional-turns" type="number" min="1" max="24" step="1" value="1" inputmode="numeric" required><button id="add-turns" type="submit" disabled>Add turns</button></form>
+            <button id="continue-session" class="continue-session" type="button" hidden disabled>Continue experiment</button>
+            <button id="stop-session" class="stop-session" type="button" hidden disabled>Stop</button>
+            <span id="turn-action-note" class="turn-action-note">Adds agent time; hardware limits stay fixed.</span>
+          </div>
+          <label class="disclosure-toggle" for="tell-turns"><input id="tell-turns" type="checkbox" checked disabled><span>Tell agent its turn budget</span></label>
+          <p id="turn-disclosure-note" class="control-description disclosure-note">Applies to the next turn. Previously disclosed budgets cannot be erased.</p>
+          <p id="controls-feedback" class="controls-feedback" role="status" aria-live="polite" hidden></p>
+        </section>
+      </div>
+      <div class="display-caption"><h2 id="display-heading">Guest display</h2><span>256 × 192 <i>·</i> RGB332</span></div>
+      <div class="display-space"><canvas id="display" width="256" height="192" role="img" aria-label="Live guest framebuffer. This display is blank until guest instructions draw pixels."></canvas></div>
+      <div class="machine-footer"><span class="machine-state"><i id="machine-light"></i><span id="machine-status">Waiting</span></span><span id="virtual-time" title="Instruction cycles divided by the configured virtual clock">0.0000 s virtual</span><span><b id="cycles">0</b> cycles</span></div>
+      <section class="changes-panel" aria-labelledby="changes-heading"><div class="changes-heading"><h2 id="changes-heading">Recent changes</h2><span>SELECT TO INSPECT LIVE RAM</span></div><div id="change-history" class="change-history"><p class="history-empty">Waiting for the first memory write.</p></div></section>
+      <details class="serial-drawer" id="serial-drawer"><summary>Serial output <span id="serial-count">0 bytes</span><span class="disclosure" aria-hidden="true">⌄</span></summary><pre id="serial" aria-label="Guest serial output"></pre><p id="serial-empty">No serial output yet.</p></details>
+    </section>
+
+    <aside class="memory" aria-label="Machine and agent inspector">
+      <div class="inspector-tabs" role="tablist" aria-label="Inspector view"><button id="memory-tab" role="tab" aria-selected="true" aria-controls="memory-view">Memory</button><button id="journal-tab" role="tab" aria-selected="false" aria-controls="journal-view" tabindex="-1">Agent journal <span id="journal-unread" hidden></span></button></div>
+      <section id="memory-view" class="inspector-view" role="tabpanel" aria-labelledby="memory-tab">
+      <div class="memory-heading"><div><p class="eyebrow">INSIDE THE MACHINE</p><h2 id="memory-heading">Live memory</h2></div><span class="readonly">READ ONLY</span></div>
+      <div class="memory-summary"><span><b id="ram-touched">0 B</b> touched</span><span id="memory-capacity">— MB total</span></div>
+      <div class="memory-map" aria-label="Recent changed ranges and viewed position in guest RAM"><div id="memory-heat"></div><i id="memory-window"></i></div>
+      <div class="memory-map-caption"><span>0</span><span>RECENT WRITES ACROSS RAM</span><span id="map-end">—</span></div>
+      <div class="follow-modes"><button id="follow-writes" class="follow" aria-pressed="true" title="Bring newly changed memory into view"><i></i>Follow writes</button><button id="follow-pc" class="follow" aria-pressed="false" title="Keep the current instruction pointer in view"><i></i>Follow PC</button><span id="follow-mode">Following changes</span></div>
+      <section id="change-focus" class="change-focus" aria-label="Selected memory change"><div class="change-focus-title"><span id="change-kind">AWAITING A WRITE</span><span id="change-time">—</span></div><p id="change-label">Assembly will appear here when it reaches RAM.</p><div class="byte-diff" id="byte-diff" hidden><span>WAS</span><code id="bytes-before"></code><span>NOW</span><code id="bytes-after"></code></div><div class="change-focus-footer"><span id="change-address">No changed address</span><span id="change-size">—</span></div></section>
+      <div class="memory-navigation"><form id="address-form"><label for="address" class="sr-only">Guest RAM address, decimal or hexadecimal</label><span aria-hidden="true">@</span><input id="address" value="0x00000000" spellcheck="false" autocomplete="off" aria-label="Guest RAM address"><button id="address-go" type="submit" title="Inspect this RAM address">Go</button></form></div>
+      <div class="page-toolbar"><span id="view-range">RAM / waiting</span><div><button id="show-bytes" aria-pressed="true" title="Show raw bytes beside the disassembly">Bytes</button><button id="page-previous" title="Previous 256 bytes" aria-label="Previous 256 bytes">←</button><button id="page-next" title="Next 256 bytes" aria-label="Next 256 bytes">→</button></div></div>
+      <div class="memory-labels"><span>ADDRESS</span><span>DISASSEMBLY <span class="live-label">FROM RAM</span></span></div>
+      <div id="memory-scroll" class="memory-scroll" tabindex="0" aria-label="Live RAM disassembly"><div id="memory-rows" class="memory-rows"></div><p id="memory-empty">Waiting for guest memory.</p></div>
+      <div class="memory-legend"><span><i class="pc-key"></i>Program counter</span><span><i class="change-key"></i>Recent write</span><span id="pc-value">PC —</span></div>
+      <details class="register-drawer"><summary>Registers <span class="disclosure" aria-hidden="true">⌄</span></summary><div id="registers" class="registers"></div></details>
+      </section>
+      <section id="journal-view" class="inspector-view journal-view" role="tabpanel" aria-labelledby="journal-tab" hidden>
+        <div class="journal-heading"><p class="eyebrow">STUDY THE BUILD</p><h2>Agent journal</h2><p>Agent progress and reported rationale, not private chain-of-thought.</p><details id="initial-goal" class="initial-goal" hidden><summary>Original goal</summary><p id="initial-goal-text"></p></details></div>
+        <details class="prompt-drawer"><summary>Submitted picos prompts <span class="disclosure" aria-hidden="true">⌄</span></summary><div id="submitted-prompts"><p class="journal-empty">No turn prompts recorded yet.</p></div></details>
+        <div class="journal-toolbar"><label class="sr-only" for="journal-filter">Filter journal</label><select id="journal-filter"><option value="all">All activity</option><option value="messages">Agent messages</option><option value="tools">Tool actions</option></select><button id="journal-follow" type="button" aria-pressed="true">Follow latest</button></div>
+        <p id="journal-retention" class="journal-retention">Recorded activity appears here as the agent works.</p>
+        <div id="journal-scroll" class="journal-scroll" tabindex="0" aria-label="Agent activity history"><ol id="journal-entries"></ol><p id="journal-empty" class="journal-empty">No public activity recorded yet.</p></div>
+        <p id="journal-error" class="journal-error" role="status" hidden></p>
+      </section>
+    </aside>
+  </main>
+
+  <nav class="mobile-nav" aria-label="Experiment views">
+    <button type="button" data-view="display" aria-pressed="true"><span aria-hidden="true">▣</span>Display</button>
+    <button type="button" data-view="memory" aria-pressed="false"><span aria-hidden="true">⌘</span>Memory</button>
+    <button type="button" data-view="journal" aria-pressed="false"><span aria-hidden="true">≡</span>Journal<span id="mobile-journal-unread" class="mobile-unread" hidden></span></button>
+    <button type="button" data-view="controls" aria-pressed="false"><span aria-hidden="true">☷</span>Controls</button>
+  </nav>
+  <footer class="statusbar"><div class="activity"><span class="activity-marker" id="activity-marker"></span><span id="agent-status">Agent idle</span><span class="activity-divider">/</span><span id="activity-text">Waiting for the experiment.</span></div><span class="status-note" id="status-note">Guest read only · session controls enabled</span></footer>
+  <div id="error" class="error" role="alert" hidden></div>
+</body>
+</html>

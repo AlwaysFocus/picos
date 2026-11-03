@@ -1,0 +1,66 @@
+{
+  "checkedAt": "2026-10-30T01:45:37.324191+00:00",
+  "implementation": "Rust",
+  "agent": {
+    "auth": "chatgpt",
+    "model": "Codex default",
+    "status": "completed",
+    "threadId": "01a18a7a-b44b-7af0-823a-1a85dc12da6c",
+    "toolCalls": 4,
+    "result": "Acceptance test passed.\n\n- Serial printed `SMOL ONLINE\\n`.\n- Screen inspection confirmed a centered green 64 \u00d7 48 rectangle, drawn by guest `store8` instructions.\n- Program halted without faults; machine remains unsealed.\n- Cost: 18,945 cycles, 181-byte program, 3,253 RAM bytes touched.\n- Used 4 machine calls, 6 tool calls including discovery.\n\nNext milestone: guest-rendered text."
+  },
+  "machine": {
+    "bootBytes": 181,
+    "config": {
+      "clockHz": 300000000,
+      "diskBytes": 33554432,
+      "maxCycles": 300000000,
+      "ramBytes": 8388608
+    },
+    "cycles": 18945,
+    "diskCursor": 0,
+    "diskTouchedBytes": 181,
+    "fault": null,
+    "inputBytes": 0,
+    "instructions": 15680,
+    "pc": 168,
+    "ramTouchedBytes": 3253,
+    "registers": [
+      8370272,
+      28,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      8339456
+    ],
+    "sealed": false,
+    "serial": "SMOL ONLINE\n",
+    "status": "halted",
+    "videoBase": 8339456,
+    "virtualSeconds": 6.315e-05
+  },
+  "framebuffer": {
+    "width": 256,
+    "height": 192,
+    "nonzeroPixels": 3072,
+    "color": 28,
+    "rectangle": {
+      "x": 96,
+      "y": 72,
+      "width": 64,
+      "height": 48
+    },
+    "everyPixelChecked": true
+  },
+  "source": "mov r0, message\nprint:\nload8 r1, r0\ncmp r1, 0\nje draw\nout r1, 0\nadd r0, 1\njmp print\ndraw:\nmov r0, VIDEO_BASE + 18528\nmov r1, 28\nmov r2, 48\nrow:\nmov r3, 64\npixel:\nstore8 r1, r0\nadd r0, 1\nsub r3, 1\ncmp r3, 0\njne pixel\nadd r0, 192\nsub r2, 1\ncmp r2, 0\njne row\nhalt\nmessage: .asciz \"SMOL ONLINE\\n\"\n"
+}

@@ -1,0 +1,41 @@
+{
+  "checkedAt": "2026-10-30T03:40:49.388752+00:00",
+  "command": [
+    "picos",
+    "new",
+    "programming-language",
+    "--strict",
+    "--cpu",
+    "300",
+    "--ram",
+    "24",
+    "--storage",
+    "200",
+    "--model",
+    "gpt-6.1-terra",
+    "--prompt",
+    "Build and test a basic programming language"
+  ],
+  "observer": "http://127.0.0.1:61033",
+  "strict": true,
+  "config": {
+    "clockHz": 300000000,
+    "diskBytes": 200000000,
+    "maxCycles": 18000000000,
+    "ramBytes": 24000000
+  },
+  "model": "gpt-6.1-terra",
+  "backend": "chatgpt-direct",
+  "completedTurnsObserved": 1,
+  "currentTurn": 2,
+  "toolCalls": 14,
+  "machineAtObservation": {
+    "cycles": 349983,
+    "bootBytes": 1853,
+    "status": "paused",
+    "fault": null,
+    "serial": "PICO BASIC 1\nLET A=EXPR | PRINT EXPR\n0\n42\n13\nERROR\n",
+    "sealed": false
+  },
+  "firstTurnPublicReport": "## Iteration 1: interactive language bootstrap\n\nBuilt and executed a guest-resident integer expression interpreter. It accepts uppercase single-letter assignments, with optional `LET`, and `PRINT` expressions. Expressions support variables, parentheses, `+`, `-`, `*`, and unsigned integer `/`, with precedence and left associativity. Arithmetic wraps at 32 bits.\n\n**Observed tests:** `2+3*4` printed `14`; assigning `(2+3)*4` to `A` and printing `A-7` printed `13`. Division by zero, an unmatched parenthesis, and trailing invalid text produced `ERROR`. A failed assignment left `A` unchanged. Further tests confirmed left associativity, wraparound, and continued operation after errors. RAM inspection showed `A` stored as 20. After reboot, the interpreter restarted from disk, variables reset, and a new calculation printed `42`.\n\nThe framebuffer is **blank**; output currently goes only to serial. Input lines beyond 127 bytes are silently truncated, and the language has no stored programs, control flow, or persistence for variables. The machine remains unsealed; this is a cross-assembled bootstrap, not a self-hosted system.\n\n**Resources:** boot image 1,853 bytes; 249,990 guest cycles consumed across the tests; no CPU fault observed.\n\n**Next milestone:** add guest-rendered text output and a usable program-entry/execution model, then test those features rather than relying solely on immediate expressions."
+}
